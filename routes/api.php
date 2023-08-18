@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Seller\AuthController;
+use App\Http\Controllers\Api\Seller\EventController;
 use App\Http\Controllers\Api\Seller\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,15 +28,25 @@ Route::post('/login',[AuthController::class,'login']);
 
 
 Route::middleware("isApiSeller")->prefix("seller")->group(function(){
+// Product
+    Route::get('/product',[ProductController::class,'index']);
+    Route::get('/product-show/{id}',[ProductController::class,'show']);
+    Route::post('/product-store',[ProductController::class,'store']);
+    Route::post('/product-update/{id}',[ProductController::class,'update']);
+    Route::get('/product-delete/{id}',[ProductController::class,'delete']);
 
-    Route::get('/',[ProductController::class,'index']);
-    Route::get('/show/{id}',[ProductController::class,'show']);
-    Route::post('/store',[ProductController::class,'store']);
-    Route::post('/update/{id}',[ProductController::class,'update']);
-    Route::get('/delete/{id}',[ProductController::class,'delete']);
+// Event
+    Route::get('/event',[EventController::class,'index']);
+    Route::get('/event-show/{id}',[EventController::class,'show']);
+    Route::post('/event-store',[EventController::class,'store']);
+    Route::post('/event-update/{id}',[EventController::class,'update']);
+    Route::get('/event-delete/{id}',[EventController::class,'delete']);
 
+// logout
     Route::post('/logout',[AuthController::class,'logout']);
 
 });
+Route::get('/all_cate',[ProductController::class,'all_cate']);
+
 
 

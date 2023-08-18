@@ -19,6 +19,9 @@ class Seller extends  Authenticatable
     ];
 
     public function products(){
-        return $this->hasMany('App\Product');
+        return $this->hasMany('App\Models\Product');
+    }
+    public function events(){
+        return $this->hasMany('App\Models\Product');
     }
 }
