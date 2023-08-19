@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Seller\AuthController;
+use App\Http\Controllers\Api\Seller\CoponController;
 use App\Http\Controllers\Api\Seller\EventController;
 use App\Http\Controllers\Api\Seller\ProductController;
 use Illuminate\Http\Request;
@@ -41,6 +42,14 @@ Route::middleware("isApiSeller")->prefix("seller")->group(function(){
     Route::post('/event-store',[EventController::class,'store']);
     Route::post('/event-update/{id}',[EventController::class,'update']);
     Route::get('/event-delete/{id}',[EventController::class,'delete']);
+
+
+// Copon
+    Route::get('/copon',[CoponController::class,'index']);
+    Route::get('/copon-show/{id}',[CoponController::class,'show']);
+    Route::post('/copon-store',[CoponController::class,'store']);
+    Route::post('/copon-update/{id}',[CoponController::class,'update']);
+    Route::get('/copon-delete/{id}',[CoponController::class,'delete']);
 
 // logout
     Route::post('/logout',[AuthController::class,'logout']);

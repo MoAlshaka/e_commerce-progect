@@ -24,4 +24,8 @@ class Seller extends  Authenticatable
     public function events(){
         return $this->hasMany('App\Models\Product');
     }
+
+    public function copons(){
+        return $this->hasMany('App\Models\Copon');
+    }
 }

@@ -20,4 +20,8 @@ class Product extends Model
     public function cate(){
         return $this->belongsTo('App\Models\Cate');
     }
+
+    public function copon(){
+        return $this->hasOne('App\Models\Copon');
+    }
 }
