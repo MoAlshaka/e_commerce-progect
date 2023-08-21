@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CoponResource;
 use App\Models\Copon;
+use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -46,14 +47,19 @@ class CoponController extends Controller
         }
 
         $seller=Seller::where('access_token',$access_token)->first();
-        $copon=Copon::create([
-            'copon_code'=>$request->copon_code,
-            'rate_of_discount'=>$request->rate_of_discount,
-            'max_amount'=>$request->max_amount,
-            'min_amount'=>$request->min_amount,
-            'product_id'=>$request->product_id,
-            'seller_id'=>$seller->id,
-        ]);
+        $product=Product::find($request->product_id);
+        if ($seller->id == $product->seller_id) {
+            $copon=Copon::create([
+                'copon_code'=>$request->copon_code,
+                'rate_of_discount'=>$request->rate_of_discount,
+                'max_amount'=>$request->max_amount,
+                'min_amount'=>$request->min_amount,
+                'product_id'=>$request->product_id,
+                'seller_id'=>$seller->id,
+            ]);
+        }else{
+            return response()->json(['message' => 'You do not have access to create Copon to this product'], 403);
+        }
         $data=[
             'id'=>$copon->id,
             'copon_code'=>$copon->copon_code,

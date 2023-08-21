@@ -14,6 +14,8 @@ class Seller extends  Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'image',
         "access_token",
         "oauth_token",
     ];

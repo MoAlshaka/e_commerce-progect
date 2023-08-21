@@ -20,8 +20,10 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
+            'phone' => 'required|max:20',
             'email' => 'required|email|max:100',
             'password' => 'required|string|max:100|min:8',
+            'image'=>'required|image|mimes:png,jpg,jpeg',
         ]);
 
          if ($validator->fails()) {
@@ -32,15 +34,24 @@ class AuthController extends Controller
             return response()->json(['message' => 'This email is already registered'], 409);
         }
 
+        $image=$request->image;
+        $ext=$image->getClientOriginalExtension();
+        $new_name=uniqid() . '.' . $ext;
+        $image->move(public_path('images/sellers'),$new_name);
+
         $seller = Seller::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'image'=>$new_name,
             'access_token' => Str::random(64),
         ]);
         $data=[
             'name'=>$seller->name,
             'email'=>$seller->email,
+            'phone'=>$seller->phone,
+            'image'=>"public/images/sellers/$seller->image",
             'access_token'=>$seller->access_token,
         ];
 
@@ -72,6 +83,8 @@ class AuthController extends Controller
         $data=[
             'name'=>$seller->name,
             'email'=>$seller->email,
+            'phone'=>$seller->phone,
+            'image'=>"public/images/sellers/$seller->image",
             'access_token'=>$seller->access_token,
         ];
 
