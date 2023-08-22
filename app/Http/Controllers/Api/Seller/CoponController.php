@@ -24,11 +24,16 @@ class CoponController extends Controller
     public function show(Request $request,$id){
         $access_token = $request->bearerToken();
         $seller=Seller::where('access_token',$access_token)->first();
-        $copon= new CoponResource(Copon::find($id));
+        $copon= Copon::find($id);
         if(!$copon){
-            return response()->json(['message' => 'Product not found'], 404);
+            return response()->json(['message' => 'Copon not found'], 404);
         }
-        return response()->json($copon);
+        if ($seller->id == $copon->seller_id ) {
+            $copon= new CoponResource($copon);
+            return response()->json($copon);
+        }else {
+            return response()->json(['message' => 'You do not have access to show this Copon'], 403);
+        }
     }
 
     public function store(Request $request){

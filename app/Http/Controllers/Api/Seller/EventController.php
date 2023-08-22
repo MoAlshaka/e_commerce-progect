@@ -23,11 +23,16 @@ class EventController extends Controller
     public function show(Request $request,$id){
         $access_token = $request->bearerToken();
         $seller=Seller::where('access_token',$access_token)->first();
-        $Event= new EventResource(Event::find($id));
-        if(!$Event){
+        $event= Event::find($id);
+        if(!$event){
             return response()->json(['message' => 'Event not found'], 404);
         }
-        return response()->json($Event);
+        if ($seller->id == $event->seller_id ) {
+            $event= new EventResource($event);
+            return response()->json($event);
+        }else {
+            return response()->json(['message' => 'You do not have access to show this Event'], 403);
+        }
     }
 
     public function store(Request $request){

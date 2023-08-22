@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CateController;
 use App\Http\Controllers\Api\Seller\AuthController;
 use App\Http\Controllers\Api\User\UserAuthController;
 use App\Http\Controllers\Api\Seller\CoponController;
@@ -82,7 +83,7 @@ Route::prefix('user')->group(function () {
 
     });
 });
-Route::get('/all_cate',[ProductController::class,'all_cate']);
+Route::get('/all_cate',[CateController::class,'all_cate']);
 
 
 

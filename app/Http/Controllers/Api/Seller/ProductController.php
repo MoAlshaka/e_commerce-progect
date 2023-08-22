@@ -24,11 +24,16 @@ class ProductController extends Controller
     public function show(Request $request,$id){
         $access_token = $request->bearerToken();
         $seller=Seller::where('access_token',$access_token)->first();
-        $product= new ProductResource(Product::find($id));
+        $product= Product::find($id);
         if(!$product){
             return response()->json(['message' => 'Product not found'], 404);
         }
-        return response()->json($product);
+        if ($seller->id == $product->seller_id ) {
+            $product= new ProductResource($product);
+            return response()->json($product);
+        }else {
+            return response()->json(['message' => 'You do not have access to show this Product'], 403);
+        }
     }
 
     public function store(Request $request){
@@ -168,8 +173,5 @@ class ProductController extends Controller
         }
     }
 
-    public function all_cate(){
-        $cates=Cate::all();
-        return response()->json($cates);
-    }
+
 }
