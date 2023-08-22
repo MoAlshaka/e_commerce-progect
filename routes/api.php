@@ -8,6 +8,9 @@ use App\Http\Controllers\Api\Seller\EventController;
 use App\Http\Controllers\Api\Seller\ProductController;
 use App\Http\Controllers\Api\Seller\ProfileController;
 use App\Http\Controllers\Api\User\UserAddressController;
+use App\Http\Controllers\Api\User\UserCoponController;
+use App\Http\Controllers\Api\User\UserEventController;
+use App\Http\Controllers\Api\User\UserProductController;
 use App\Http\Controllers\Api\User\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -75,9 +78,21 @@ Route::prefix('user')->group(function () {
          //address
         Route::get('/address',[UserAddressController::class,'index']);
         Route::get('/address-show/{id}',[UserAddressController::class,'show']);
-         Route::post('/address-create',[UserAddressController::class,'store']);
-         Route::post('/address-update/{id}',[UserAddressController::class,'update']);
+        Route::post('/address-create',[UserAddressController::class,'store']);
+        Route::post('/address-update/{id}',[UserAddressController::class,'update']);
         Route::get('/address-delete/{id}',[UserAddressController::class,'delete']);
+
+        // Product
+        Route::get('/product',[UserProductController::class,'all_product']);
+        Route::get('/product/{id}',[UserProductController::class,'one_product']);
+
+        // Event
+        Route::get('/event',[UserEventController::class,'all_event']);
+        Route::get('/event/{id}',[UserEventController::class,'one_event']);
+
+        // Copon
+        Route::get('/copon',[UserCoponController::class,'all_copon']);
+        Route::get('/copon/{id}',[UserCoponController::class,'one_copon']);
         // logout
         Route::post('/logout',[UserAuthController::class,'logout']);
 
