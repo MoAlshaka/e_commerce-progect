@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Seller\CoponController;
 use App\Http\Controllers\Api\Seller\EventController;
 use App\Http\Controllers\Api\Seller\ProductController;
 use App\Http\Controllers\Api\Seller\ProfileController;
+use App\Http\Controllers\Api\User\UserAddressController;
 use App\Http\Controllers\Api\User\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -70,6 +71,12 @@ Route::prefix('user')->group(function () {
     Route::middleware("isApiUser")->group(function(){
          //profile
          Route::post('/profile-update',[UserProfileController::class,'update']);
+         //address
+        Route::get('/address',[UserAddressController::class,'index']);
+        Route::get('/address-show/{id}',[UserAddressController::class,'show']);
+         Route::post('/address-create',[UserAddressController::class,'store']);
+         Route::post('/address-update/{id}',[UserAddressController::class,'update']);
+        Route::get('/address-delete/{id}',[UserAddressController::class,'delete']);
         // logout
         Route::post('/logout',[UserAuthController::class,'logout']);
 
